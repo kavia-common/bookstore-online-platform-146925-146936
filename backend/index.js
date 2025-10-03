@@ -1,0 +1,14 @@
+const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
+const app = express();
+app.use(express.json());
+const PORT = process.env.PORT || 3000;
+let books = [{id:1,title:'Example Book'}];
+let orders = [];
+app.get('/books', (req,res)=>res.json(books));
+app.post('/books',(req,res)=>{const b={id:books.length+1,...req.body};books.push(b);res.status(201).json(b)});
+app.get('/orders',(req,res)=>res.json(orders));
+app.post('/orders',(req,res)=>{const o={id:orders.length+1,...req.body};orders.push(o);res.status(201).json(o)});
+if (require.main === module) app.listen(PORT,()=>console.log(`listening ${PORT}`));
+module.exports = app;
